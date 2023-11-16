@@ -1,4 +1,5 @@
 import { Navbar } from "./_components/Navbar";
+import { Footer } from "./_components/footer";
 
 const LandingPageLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -7,6 +8,7 @@ const LandingPageLayout = ({ children }: { children: React.ReactNode }) => {
       <Navbar />
       <main>{children}</main>
       {/* TODO: Footer */}
+      <Footer />
     </div>
   );
 };
