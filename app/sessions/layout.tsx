@@ -1,7 +1,7 @@
 import { Navbar } from "../../components//Navbar";
-import { Footer } from "../../components//footer";
+import { Footer } from "../../components/footer";
 
-const LandingPageLayout = ({ children }: { children: React.ReactNode }) => {
+const SessionsPageLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="bg-slate-100">
       <Navbar />
@@ -10,4 +10,4 @@ const LandingPageLayout = ({ children }: { children: React.ReactNode }) => {
     </div>
   );
 };
-export default LandingPageLayout;
+export default SessionsPageLayout;

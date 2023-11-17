@@ -1,15 +1,23 @@
-import localFont from "next/font/local";
-import Link from "next/link";
+"use client";
 
-import { Button } from "@/components/ui/button";
+import localFont from "next/font/local";
+import { Poppins } from "next/font/google";
+
 import { cn } from "@/lib/utils";
+import { UserButton, useAuth, useUser } from "@clerk/nextjs";
 
 const headingFont = localFont({
   src: "../../public/fonts/UNI North.otf",
 });
 
+const textFont = Poppins({
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+});
 
-const LandingPage = () => {
+const EventsPage = () => {
+  const { userId } = useAuth();
+  const { user } = useUser();
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24 align-middle">
       <h1
@@ -18,13 +26,11 @@ const LandingPage = () => {
           headingFont.className
         )}
       >
-        Landing Page
+        Events Page
       </h1>
-      <Button className="my-32 text-2xl p-8" size={"lg"}>
-        <Link href={"/events"}>Create New Session</Link>
-      </Button>
+      <div></div>
     </main>
   );
 };
 
-export default LandingPage;
+export default EventsPage;

@@ -1,15 +1,19 @@
 import localFont from "next/font/local";
 import Link from "next/link";
+import { Poppins } from "next/font/google";
 
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 const headingFont = localFont({
   src: "../../public/fonts/UNI North.otf",
 });
 
+const textFont = Poppins({
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+});
 
-const LandingPage = () => {
+const SessionPage = () => {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24 align-middle">
       <h1
@@ -18,13 +22,11 @@ const LandingPage = () => {
           headingFont.className
         )}
       >
-        Landing Page
+        Session Page
       </h1>
-      <Button className="my-32 text-2xl p-8" size={"lg"}>
-        <Link href={"/events"}>Create New Session</Link>
-      </Button>
+
     </main>
   );
 };
 
-export default LandingPage;
+export default SessionPage;
