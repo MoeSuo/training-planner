@@ -78,3 +78,12 @@ body,
     @apply bg-background text-foreground;
   }
 }
+
+/* Calendar's CSS*/
+.react-calendar__tile {
+  position: relative;
+}
+
+/* .calendar-tile__has-events{
+  background: orange!important;
+} */
