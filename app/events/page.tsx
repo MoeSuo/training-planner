@@ -11,6 +11,9 @@ import "react-calendar/dist/Calendar.css";
 import { Event } from "@/lib/definitions";
 import { differenceInCalendarDays } from "date-fns";
 import EventCard from "@/components/event-card/EventCard";
+import api from "@/lib/api";
+import SectionTitle from "@/components/section-title/SectionTitle";
+import LinkButton from "@/components/button-link/LinkButton";
 
 function isSameDay(a: number | Date, b: number | Date) {
   return differenceInCalendarDays(a, b) === 0;
@@ -29,51 +32,6 @@ type ValuePiece = Date | null;
 
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
-const events:Event[] = [
-  {
-    id: 1,
-    type: "Training",
-    date: "11.01.2023",
-    place: "Ratina stadium",
-    name:'Running'
-  },
-  {
-    id: 2,
-    type: "Game",
-    date: "11.23.2023",
-    place: "Ratina stadium",
-    name: 'November competition first round'
-  },
-  {
-    id: 3,
-    type: "Game",
-    date: "11.30.2023",
-    place: "Ratina stadium",
-    name:'November competition second round'
-  },
-  {
-    id: 5,
-    type: "Training",
-    date: "10.05.2023",
-    place: "Ratina stadium",
-    name: 'HIIT'
-  },
-  {
-    id: 4,
-    type: "Game",
-    date: "10.10.2023",
-    place: "Ratina stadium",
-    name: 'October competition first round'
-  },
-  {
-    id: 6,
-    type: "Game",
-    date: "10.10.2023",
-    place: "Ratina stadium",
-    name:'October competition second round'
-  },
-];
-
 type CalendarProps = {
   view: string;
   date: any;
@@ -85,7 +43,7 @@ function tileContent({ date, view }: CalendarProps) {
     // console.log(view, date);
     // Check if a date React-Calendar wants to check is on the list of dates to add class to
     if (
-      events.find((dDate) => {
+      api.events.find((dDate) => {
         const sameDay = isSameDay(new Date(dDate.date), date);
         // console.log(sameDay, dDate.date, date);
         return sameDay;
@@ -107,15 +65,14 @@ const EventsPage = () => {
   const { user } = useUser();
   const [selectedDate, setSelectedDate] = useState<Value>(new Date());
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24 align-middle ">
-      <h1
-        className={cn(
-          "text-blue-300 text-6xl text-center mb-4",
-          headingFont.className
-        )}
-      >
-        Events Page
-      </h1>
+    <main className="relative min-h-screen p-8 ">
+      <div className="pt-16">
+      <SectionTitle>Tapahtumakalenteri</SectionTitle>
+   <div className="relative pt-4 pb-8">
+        <LinkButton href={'/sessions'}>Luo uusi tapahtuma</LinkButton>
+
+   </div>
+
       <div className=" w-full flex flex-row gap-4">
         <div className="w-1/2">
         <Calendar
@@ -123,21 +80,22 @@ const EventsPage = () => {
           onChange={setSelectedDate}
           value={selectedDate}
           tileContent={tileContent}
-        />
+          />
 
         </div>
         <div className={cn(
           "day-events flex flex-col gap-4 w-full",
           textFont.className
-        )}>
+          )}>
           {
-          events
-          .filter((event:Event)=>isSameDay(new Date(event.date), selectedDate as Date))
-          .map((event:Event) => (
-            <EventCard key={event.id} {...event}></EventCard>
-          ))}
+            api.events
+            .filter((event:Event)=>isSameDay(new Date(event.date), selectedDate as Date))
+            .map((event:Event) => (
+              <EventCard key={event.id} {...event}></EventCard>
+              ))}
         </div>
       </div>
+              </div>
     </main>
   );
 };

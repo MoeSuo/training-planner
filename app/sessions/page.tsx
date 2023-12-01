@@ -1,30 +1,41 @@
-import localFont from "next/font/local";
-import Link from "next/link";
+'use client'
+
+// import localFont from "next/font/local";
 import { Poppins } from "next/font/google";
 
 import { cn } from "@/lib/utils";
+import Form from "@/components/form/Form";
+import SectionTitle from "@/components/section-title/SectionTitle";
 
-const headingFont = localFont({
-  src: "../../public/fonts/UNI North.otf",
-});
+
+// const headingFont = localFont({
+//   src: "../../public/fonts/UNI North.otf",
+// });
 
 const textFont = Poppins({
   subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  weight: ["400", "600", "700"],
 });
+
 
 const SessionPage = () => {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24 align-middle">
-      <h1
+    <main className={cn("relative min-h-screen p-8",
+    textFont.className)}>
+      <div className="p-10">
+        <SectionTitle>Create Your Event</SectionTitle>
+      {/* <h1
         className={cn(
-          "text-blue-300 text-6xl text-center",
-          headingFont.className
+          "text-slate-500 text-6xl font-semibold tracking-tight",
+          textFont.className,
+          
         )}
       >
-        Session Page
-      </h1>
+        Create Your Event
+      </h1> */}
+<Form />
 
+      </div>
     </main>
   );
 };

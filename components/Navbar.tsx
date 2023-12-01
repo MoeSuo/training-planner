@@ -8,26 +8,26 @@ export const Navbar = async () => {
   const user = await currentUser();
   const { userId } = auth();
   return (
-    <div className="fixed top-0 w-full border-b shadow-sm bg-white flex justify-between h-14 px-4 items-center">
-      <div className="md:max-w-screen-2xl mx-auto flex items-center w-full justify-between">
+    <div className="fixed z-10 top-0 inset-x-0 w-full border-b shadow-sm bg-white flex justify-between h-14 px-10 items-center">
+      <div className="md:max-w-screen-2xl mx-auto flex items-center w-8/12 justify-between">
         <div>
           <Logo />
         </div>
         <div className="flex gap-16 ">
           <Link
-            className="hover:text-opacity-75 p-2 rounded-lg  hover:bg-orange-200"
+            className="hover:text-opacity-75 p-2 hover:underline underline-offset-2 decoration-orange-500"
             href={"/"}
           >
             Home
           </Link>
-          <Link
+          {/* <Link
             className="hover:text-opacity-75 p-2 rounded-lg  hover:bg-orange-200"
             href={"/sessions"}
           >
             Sessions
-          </Link>
+          </Link> */}
           <Link
-            className="hover:text-opacity-75 p-2 rounded-lg  hover:bg-orange-200"
+            className="hover:text-opacity-75 p-2  hover:underline underline-offset-2 decoration-orange-500"
             href={"/events"}
           >
             Events
@@ -37,9 +37,9 @@ export const Navbar = async () => {
           <UserButton afterSignOutUrl="/" />
         ) : (
           <div>
-            <Button variant={"ghost"}>
-              <Link href={"/sign-in"}>Login</Link>
-            </Button>
+            {/* <Button variant={"ghost"}> */}
+              <Link href={"/sign-in"} className="hover:underline underline-offset-2 decoration-orange-500">Login</Link>
+            {/* </Button> */}
           </div>
         )}
       </div>
