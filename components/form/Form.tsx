@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from "react";
+import React, { useState, FormEvent, useEffect } from "react";
 import Input from "./Input";
 import { Event, EventTypes, Media } from "@/lib/definitions";
 import api from "@/lib/api";
@@ -11,11 +11,18 @@ import LinkButton from "../button-link/LinkButton";
 import { useRouter } from "next/navigation";
 
 interface FormError {
-  error: string | null;
+  error: unknown | null;
   message: string | null;
 }
 
-export default function Form() {
+type FormProps = {
+  initialFields?: Event;
+  onSubmit: (formValue: Event) => void;
+  onSuccess?: () => void;
+  onError?: (error: FormError) => void;
+};
+
+export default function Form(props: FormProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<FormError | null>({
     error: null,
@@ -23,28 +30,35 @@ export default function Form() {
   });
 
   const [formValue, setFormValue] = useState<Event>({
-    id: 9,
+    id: "",
     type: EventTypes.game,
     date: format(new Date(), "yyyy-MM-dd'T'HH:mm"),
     place: "",
     title: "",
     description: "",
-    attachments: []
+    attachments: [],
   });
+
+  useEffect(() => {
+    if (props.initialFields) {
+      setFormValue(props.initialFields);
+    }
+  }, [props.initialFields]);
 
   const router = useRouter();
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
-
     event.preventDefault();
     setIsLoading(true);
     setError({ error: null, message: null }); // Clear previous errors when a new request starts
 
     try {
       const formData = new FormData(event.currentTarget);
-      console.warn("Create Event", formValue);
-      api.createEvent(formValue);
+      console.warn("Form value:", formValue);
 
+      // api.createEvent(formValue);
+
+      if (props.onSubmit) props.onSubmit(formValue);
       setFormValue({
         id: "",
         type: EventTypes.game,
@@ -54,12 +68,12 @@ export default function Form() {
         description: "",
         attachments: [],
       });
-
-      router.push('/events')
-
+      if (props.onSuccess) props.onSuccess();
+      // router.push("/events");
     } catch (error) {
       // Capture the error message to display to the user
-      setError({ error: null, message: null });
+      if(props.onError) props.onError({ error: error, message: null })
+      setError({ error: error, message: null });
       console.error(error);
       setIsLoading(false);
     } finally {
@@ -127,7 +141,7 @@ export default function Form() {
             maxLength={1000}
           />
 
-        {/* <CldUploadWidget
+          {/* <CldUploadWidget
             uploadPreset="coach_book"
             onSuccess={(result, { widget }) => {
               setFormValue({...formValue, attachments: [...formValue.attachments, result.info as Media]})
@@ -154,7 +168,6 @@ export default function Form() {
           {isLoading ? "Loading..." : "Submit"}
         </button>
       </form>
-          
     </div>
   );
 }

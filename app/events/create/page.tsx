@@ -6,6 +6,9 @@ import { Poppins } from "next/font/google";
 import { cn } from "@/lib/utils";
 import Form from "@/components/form/Form";
 import SectionTitle from "@/components/section-title/SectionTitle";
+import api from "@/lib/api";
+import { Event } from "@/lib/definitions";
+import { useRouter } from "next/navigation";
 
 
 // const headingFont = localFont({
@@ -17,8 +20,14 @@ const textFont = Poppins({
   weight: ["400", "600", "700"],
 });
 
+const createEventHandler = (event: Event) => {
+  if (!event) return;
+  api.createEvent(event);
+};
 
-const SessionPage = () => {
+
+const CreateEventPage = () => {
+  const router = useRouter();
   return (
     <main className={cn("relative min-h-screen p-8",
     textFont.className)}>
@@ -33,11 +42,15 @@ const SessionPage = () => {
       >
         Create Your Event
       </h1> */}
-<Form />
+<Form 
+onSubmit={createEventHandler}
+onSuccess={()=>router.push('/events')}
+
+/>
 
       </div>
     </main>
   );
 };
 
-export default SessionPage;
+export default CreateEventPage;
